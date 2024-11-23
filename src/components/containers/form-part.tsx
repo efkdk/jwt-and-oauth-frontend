@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import {
   FormControl,
   FormDescription,
@@ -8,16 +7,26 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
+import type { FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import { PasswordInput } from '../ui/password-input';
 
-type FormPartProps = {
-  form: any; // TODO: make it work
-  name: string;
+type FormPartProps<TFormValues extends FieldValues> = {
+  form: UseFormReturn<TFormValues>; // TODO: make it work
+  name: Path<TFormValues>;
   label: string;
   placeholder?: string;
   description?: string;
+  inputType?: React.HTMLInputTypeAttribute;
 };
 
-const FormPart: FC<FormPartProps> = ({ form, name, label, placeholder, description }) => {
+const FormPart = <TFormValues extends FieldValues>({
+  form,
+  name,
+  label,
+  placeholder,
+  description,
+  inputType,
+}: FormPartProps<TFormValues>) => {
   return (
     <FormField
       control={form.control}
@@ -26,7 +35,11 @@ const FormPart: FC<FormPartProps> = ({ form, name, label, placeholder, descripti
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} />
+            {inputType === 'password' ? (
+              <PasswordInput autoComplete="password" placeholder={placeholder} {...field} />
+            ) : (
+              <Input placeholder={placeholder} {...field} />
+            )}
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

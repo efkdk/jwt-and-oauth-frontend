@@ -7,7 +7,7 @@ const ErrorPage = () => {
       <p className="mb-4 text-xl font-medium">
         Oops! Page which you are looking for is not found :(
       </p>
-      <Button variant={'default'} onClick={() => window.history.back()}>
+      <Button variant="default" onClick={() => window.history.back()}>
         Go back
       </Button>
     </div>

@@ -1,4 +1,4 @@
-import RegistrationForm from '@/components/containers/registration-form';
+import RegistrationForm from '@/features/auth/registration-form';
 import { Link } from 'react-router-dom';
 
 const RegistrationPage = () => {
@@ -10,7 +10,7 @@ const RegistrationPage = () => {
       </p>
       <p>with google</p>
       <div>or with email and password</div>
-      <div className="w-1/2">
+      <div className="form-container">
         <RegistrationForm />
       </div>
     </div>

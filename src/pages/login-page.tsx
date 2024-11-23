@@ -1,4 +1,4 @@
-import LoginForm from '@/components/containers/login-form';
+import LoginForm from '@/features/auth/login-form';
 import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
@@ -12,7 +12,7 @@ const LoginPage = () => {
       <div className="flex">
         <p className="">or with email and password</p>
       </div>
-      <div className="w-1/2">
+      <div className="form-container">
         <LoginForm />
       </div>
     </div>

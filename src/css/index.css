@@ -75,4 +75,10 @@
   .flex-center {
     @apply flex items-center justify-center;
   }
+  .form-container {
+    @apply w-3/4 max-w-3xl sm:w-1/2;
+  }
+  .header-container {
+    @apply max-w-6xl px-4 mx-auto;
+  }
 }
