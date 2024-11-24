@@ -17,6 +17,7 @@ const api = createApi({
   reducerPath: 'api',
   baseQuery,
   endpoints: () => ({}),
+  tagTypes: ['Auth'],
 });
 
 export default api;

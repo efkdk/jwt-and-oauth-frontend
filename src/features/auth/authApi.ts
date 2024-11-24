@@ -23,6 +23,7 @@ export const authApi = api.injectEndpoints({
           console.log(e);
         }
       },
+      invalidatesTags: ['Auth'],
       transformResponse: (response) => {
         console.log(response);
         return AuthResponseSchema.parse(response);
@@ -42,6 +43,7 @@ export const authApi = api.injectEndpoints({
           console.log(e);
         }
       },
+      invalidatesTags: ['Auth'],
       transformResponse: (response) => AuthResponseSchema.parse(response),
     }),
     logout: build.mutation<void, void>({
@@ -58,6 +60,7 @@ export const authApi = api.injectEndpoints({
           console.log(e);
         }
       },
+      invalidatesTags: ['Auth'],
     }),
     refresh: build.query<AuthResponse, void>({
       query: () => ({
