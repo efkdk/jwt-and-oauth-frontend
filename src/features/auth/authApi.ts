@@ -63,6 +63,14 @@ export const authApi = api.injectEndpoints({
       query: () => ({
         url: '/refresh',
       }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data: user } = await queryFulfilled;
+          dispatch(setCredentials(user));
+        } catch (e) {
+          console.log(e);
+        }
+      },
       transformResponse: (response) => AuthResponseSchema.parse(response),
     }),
   }),

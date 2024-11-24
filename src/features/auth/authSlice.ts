@@ -6,11 +6,13 @@ import { AuthResponse } from '@/shared/types/auth-model';
 type AuthState = {
   user: User | null;
   isAuth: boolean;
+  isLoading: boolean;
 };
 
 const initialState: AuthState = {
   user: null,
   isAuth: false,
+  isLoading: false,
 };
 
 const authSlice = createSlice({
@@ -22,6 +24,9 @@ const authSlice = createSlice({
       state.user = user;
       localStorage.setItem('token', accessToken);
       state.isAuth = true;
+    },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
     logoutUser: (state) => {
       localStorage.removeItem('token');
@@ -36,10 +41,13 @@ const authSlice = createSlice({
     selectUser: (state) => {
       return state.user;
     },
+    selectIsLoading: (state) => {
+      return state.isLoading;
+    },
   },
 });
 
 export default authSlice;
 
-export const { setCredentials, logoutUser } = authSlice.actions;
-export const { selectIsAuth, selectUser } = authSlice.selectors;
+export const { setCredentials, logoutUser, setIsLoading } = authSlice.actions;
+export const { selectIsAuth, selectUser, selectIsLoading } = authSlice.selectors;

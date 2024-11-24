@@ -1,5 +1,5 @@
+import { Button } from '@/components/ui/button';
 import UserInfo from '@/components/ui/user-info';
-import { ToastContainer } from 'react-toastify';
 
 const WelcomePage = () => {
   return (
@@ -10,7 +10,9 @@ const WelcomePage = () => {
       </p>
       <p className="mb-2">User data:</p>
       <UserInfo />
-      <ToastContainer containerId="welcomePageContainer" />
+      <Button variant="outline" className="mt-4 text-base">
+        Make an authenticated request
+      </Button>
     </div>
   );
 };
