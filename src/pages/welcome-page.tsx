@@ -1,16 +1,12 @@
 import { Button } from '@/components/ui/button';
 import RequestViewer from '@/components/ui/request-viewer';
-import { Spinner } from '@/components/ui/spinner';
 import UserInfo from '@/components/ui/user-info';
-import { selectIsAuth } from '@/features/auth/authSlice';
 import { useLazyGetPrivateDataQuery } from '@/features/private/privateApi';
 import { getErrorMessage } from '@/helpers/error-helper';
 import { showToast } from '@/helpers/toast-helper';
-import { useAppSelector } from '@/shared/types/redux';
 
 const WelcomePage = () => {
-  const [getPrivateData, { data, isLoading, error }] = useLazyGetPrivateDataQuery();
-  const isAuth = useAppSelector(selectIsAuth);
+  const [getPrivateData, { data, isFetching, isError }] = useLazyGetPrivateDataQuery();
 
   async function handleClick() {
     const { error } = await getPrivateData();
@@ -31,9 +27,7 @@ const WelcomePage = () => {
       <Button variant="outline" className="my-4 text-base" onClick={handleClick}>
         Make an authenticated request
       </Button>
-      {isLoading && <Spinner />}
-      {isAuth && data && !isLoading && !error && <RequestViewer data={data} />}
-      {error && <p className="font-medium text-red-400">The authenticated request failed :(</p>}
+      <RequestViewer data={data} isFetching={isFetching} isError={isError} />
     </div>
   );
 };

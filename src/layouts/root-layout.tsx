@@ -1,28 +1,24 @@
 import Header from '@/components/ui/header';
-import { authApi } from '@/features/auth/authApi';
-import { selectIsAuth, setIsLoading } from '@/features/auth/authSlice';
-import { useAppDispatch, useAppSelector } from '@/shared/types/redux';
+import { useLazyRefreshQuery } from '@/features/auth/authApi';
+import { selectIsAuth } from '@/features/auth/authSlice';
+import { useAppSelector } from '@/shared/types/redux';
 import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+
 const RootLayout = () => {
   const isAuth = useAppSelector(selectIsAuth);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  // logout in one window but logged in in another window?
+  const [refresh] = useLazyRefreshQuery({
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
+  });
+
   useEffect(() => {
+    // initially user is not authorized
     if (!isAuth) {
-      dispatch(setIsLoading(true));
-      dispatch(authApi.endpoints.refresh.initiate())
-        .unwrap()
-        .catch((error) => {
-          // localStorage.removeItem('token');
-          console.log(error);
-          // navigate('/');
-        })
-        .finally(() => dispatch(setIsLoading(false)));
+      refresh();
     }
-  }, [dispatch, isAuth, navigate]);
+  }, [isAuth, refresh]);
   return (
     <>
       <Header />

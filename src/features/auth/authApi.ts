@@ -5,7 +5,7 @@ import {
   RegistrationCredentials,
 } from '@/shared/types/auth-model';
 import api from '@/shared/redux/api';
-import { logoutUser, setCredentials } from './authSlice';
+import { logoutUser, setCredentials, setIsLoading } from './authSlice';
 
 export const authApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -23,11 +23,7 @@ export const authApi = api.injectEndpoints({
           console.log(e);
         }
       },
-      invalidatesTags: ['Auth'],
-      transformResponse: (response) => {
-        console.log(response);
-        return AuthResponseSchema.parse(response);
-      },
+      transformResponse: (response) => AuthResponseSchema.parse(response),
     }),
     login: build.mutation<AuthResponse, LoginCredentials>({
       query: (credentials) => ({
@@ -43,7 +39,6 @@ export const authApi = api.injectEndpoints({
           console.log(e);
         }
       },
-      invalidatesTags: ['Auth'],
       transformResponse: (response) => AuthResponseSchema.parse(response),
     }),
     logout: build.mutation<void, void>({
@@ -55,12 +50,10 @@ export const authApi = api.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(logoutUser());
-          console.log('Logout successful!');
         } catch (e) {
           console.log(e);
         }
       },
-      invalidatesTags: ['Auth'],
     }),
     refresh: build.query<AuthResponse, void>({
       query: () => ({
@@ -68,15 +61,26 @@ export const authApi = api.injectEndpoints({
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
+          dispatch(setIsLoading(true));
           const { data: user } = await queryFulfilled;
           dispatch(setCredentials(user));
-        } catch (e) {
-          console.log(e);
+        } catch {
+          //if refresh failed user is not authorized
+          dispatch(logoutUser());
+        } finally {
+          dispatch(setIsLoading(false));
         }
       },
       transformResponse: (response) => AuthResponseSchema.parse(response),
     }),
   }),
+  overrideExisting: false,
 });
 
-export const { useSignupMutation, useLoginMutation, useLogoutMutation, useRefreshQuery } = authApi;
+export const {
+  useSignupMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useRefreshQuery,
+  useLazyRefreshQuery,
+} = authApi;
