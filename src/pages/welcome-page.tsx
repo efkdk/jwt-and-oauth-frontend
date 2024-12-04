@@ -17,7 +17,7 @@ const WelcomePage = () => {
   }
 
   return (
-    <div className="flex flex-col flex-center">
+    <div className="flex flex-col px-4 mt-8 flex-center">
       <h1 className="mb-4 title">Welcome!</h1>
       <p className="mb-4 text-lg font-medium">
         If user data is <code>null</code> try to sign up or log in!

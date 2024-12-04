@@ -16,9 +16,11 @@ const defaultOptions: ToastOptions = {
 
 export function showToast(message: string, options: CustomToastOption) {
   const { type } = options;
+  const theme = localStorage.getItem('theme') || undefined; // also stores in redux
   const customOptions = {
     ...defaultOptions,
     ...options,
+    theme,
   };
   switch (type) {
     case 'error':
