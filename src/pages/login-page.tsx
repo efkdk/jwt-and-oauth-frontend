@@ -10,9 +10,9 @@ const LoginPage = () => {
         <h3 className="mb-8 title">Log in to your account</h3>
         <GoogleButton type="login" className="self-center mb-4" />
         <div className="flex items-center justify-center my-4">
-          <div className="flex-grow border-t border-gray-300" />
+          <div className="line" />
           <span className="px-4 text-gray-500">Or with email and password</span>
-          <div className="flex-grow border-t border-gray-300" />
+          <div className="line" />
         </div>
         <div className="w-full mb-4">
           <LoginForm />
