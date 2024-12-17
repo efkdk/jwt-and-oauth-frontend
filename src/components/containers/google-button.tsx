@@ -1,7 +1,8 @@
 import type { FC } from 'react';
-import { Button } from '@/components/ui/button';
 import { getGoogleUrl } from '@/utils/getGoogleUrl';
-import GoogleLogo from '../ui/google-logo';
+import GoogleLogo from '@/components/ui/google-logo';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 type GoogleButtonProps = {
   type: 'signup' | 'login';
@@ -9,13 +10,16 @@ type GoogleButtonProps = {
 };
 
 const GoogleButton: FC<GoogleButtonProps> = ({ type, className, ...props }) => {
+  const googleURL = getGoogleUrl({ from: '/', type });
+  const styleClasses =
+    cn(buttonVariants({ variant: 'outline' })) +
+    ' !px-16 py-2 !text-lg font-medium !w-fit ' +
+    className;
   return (
-    <Button className={`py-4 w-52 ${className}`} {...props} variant="outline">
+    <a {...props} className={styleClasses} href={googleURL}>
       <GoogleLogo />
-      <a className="text-lg first-letter:uppercase" href={getGoogleUrl({ from: '/', type })}>
-        Google
-      </a>
-    </Button>
+      Google
+    </a>
   );
 };
 
